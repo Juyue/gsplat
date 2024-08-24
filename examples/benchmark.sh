@@ -1,6 +1,8 @@
 RESULT_DIR=results/benchmark
+DATA_ROOT=/root/datasets
 
-for SCENE in bicycle bonsai counter garden kitchen room stump;
+# for SCENE in bicycle bonsai counter garden kitchen room stump;
+for SCENE in bicycle
 do
     if [ "$SCENE" = "bicycle" ] || [ "$SCENE" = "stump" ] || [ "$SCENE" = "garden" ]; then
         DATA_FACTOR=4
@@ -12,21 +14,22 @@ do
 
     # train without eval
     python simple_trainer.py --eval_steps -1 --disable_viewer --data_factor $DATA_FACTOR \
-        --data_dir data/360_v2/$SCENE/ \
+        --data_dir $DATA_ROOT/360_v2/$SCENE/ \
         --result_dir $RESULT_DIR/$SCENE/
 
     # run eval and render
     for CKPT in results/benchmark/$SCENE/ckpts/*;
     do
         python simple_trainer.py --disable_viewer --data_factor $DATA_FACTOR \
-            --data_dir data/360_v2/$SCENE/ \
+            --data_dir $DATA_ROOT/360_v2/$SCENE/ \
             --result_dir $RESULT_DIR/$SCENE/ \
             --ckpt $CKPT
     done
 done
 
 
-for SCENE in bicycle bonsai counter garden kitchen room stump;
+# for SCENE in bicycle bonsai counter garden kitchen room stump;
+for SCENE in bicycle
 do
     echo "=== Eval Stats ==="
 

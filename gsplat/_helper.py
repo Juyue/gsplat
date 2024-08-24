@@ -17,6 +17,8 @@ def load_test_data(
 
     if data_path is None:
         data_path = os.path.join(os.path.dirname(__file__), "../assets/test_garden.npz")
+        # homedir = os.path.expanduser("~")
+        # data_path = os.path.join(homedir, "gsplat/assets/test_garden.npz")
     data = np.load(data_path)
     height, width = data["height"].item(), data["width"].item()
     viewmats = torch.from_numpy(data["viewmats"]).float().to(device)
